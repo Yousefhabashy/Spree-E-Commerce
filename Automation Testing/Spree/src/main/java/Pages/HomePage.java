@@ -52,6 +52,30 @@ public class HomePage extends PagesBase {
         return homeProductCards.get(randomIndex);
     }
 
+    public boolean isProductFound(String title) {
+        List<WebElement> productsTitles = driver.findElements(
+                By.cssSelector("h3.product-card-title")
+        );
+
+        for (WebElement productTitle : productsTitles) {
+            if (productTitle.getText().trim().equalsIgnoreCase(title)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void openProduct(String title) {
+        List<WebElement> products = driver.findElements(By.cssSelector("div.product-card.flex.h-full.flex-col.w-full.gap-2.relative"));
+        if(isProductFound(title)) {
+            for (WebElement productCard : products) {
+                WebElement product = productCard.findElement(By.cssSelector("h3.line-clamp-1.product-card-title"));
+                if(product.getText().equalsIgnoreCase(title)) {
+                    WebElement productLink = productCard.findElement(By.tagName("a"));
+                    productLink.click();
+                }
+            }
+        }
+    }
 
     @FindBy(css = "button.uppercase.flex.gap-2.text-sm.items-center.font-semibold.py-3")
     public WebElement filterLink;
@@ -64,9 +88,6 @@ public class HomePage extends PagesBase {
 
 
 
-
-
-
     @FindBy(id = "dropdown-button")
     public WebElement sortList;
 
@@ -75,7 +96,8 @@ public class HomePage extends PagesBase {
 
         clickElementJS(sortList);
     }
-    @FindBy(id = "sort-best-selling")
+
+    @FindBy(xpath = "//*[@id=\"dropdown-button\"]/div/div/form/label[2]")
     public WebElement sortByBestSelling;
 
     public void sortByBestSelling() {
@@ -125,29 +147,28 @@ public class HomePage extends PagesBase {
         actions.moveToElement(sortByPriceHighToLow).click().perform();
     }
 
-    @FindBy(xpath = "//*[@id=\"dropdown-button\"]/button/span[2]")
-    public WebElement sortMethod;
+    @FindBy(xpath = "//*[@id=\"dropdown-button\"]/div/div/form/label[7]")
+    public WebElement newest;
 
+    public void sortByNewest() {
 
+        Actions actions = new Actions(driver);
 
-
-    public boolean isProductInSearchResult(String productName) {
-
-        for(WebElement productCard : productCards) {
-
-            boolean found = false;
-            String cardProductName = productCard.findElement(By.cssSelector("h3.line-clamp-1.product-card-title")).getText();
-
-            if(cardProductName.equalsIgnoreCase(productName)){
-
-                productCard.findElement(By.cssSelector("h3.line-clamp-1.product-card-title")).click();
-                return true;
-            }
-        }
-        return false;
+        actions.moveToElement(newest).click().perform();
     }
 
+    @FindBy(xpath = "//*[@id=\"dropdown-button\"]/div/div/form/label[8]")
+    public WebElement oldest;
 
+    public void sortByOldest() {
+
+        Actions actions = new Actions(driver);
+
+        actions.moveToElement(oldest).click().perform();
+    }
+
+    @FindBy(xpath = "//*[@id=\"dropdown-button\"]/button/span[2]")
+    public WebElement sortMethod;
 
     public boolean isSortedAToZ() {
 

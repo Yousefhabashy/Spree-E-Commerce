@@ -18,6 +18,14 @@ public class FilterPage extends PagesBase {
         PagesBase.driver = driver;
     }
 
+    public List<WebElement> productNumbers() {
+        return driver.findElements(By.cssSelector("div.product-card.flex.h-full.flex-col.w-full.gap-2.relative"));
+    }
+    public boolean isFiltered(int number) {
+
+        List<WebElement> productsFound = driver.findElements(By.cssSelector("div.product-card.flex.h-full.flex-col.w-full.gap-2.relative"));
+        return productsFound.size() == number;
+    }
 
     @FindBy(css = "a[href='#availability_filter']")
     public WebElement availability;
@@ -27,7 +35,7 @@ public class FilterPage extends PagesBase {
         clickElementJS(availability);
     }
 
-    public void selectInStock() {
+    public int selectInStock() {
 
         List<WebElement> availabilityOptions = driver.findElements(
                 By.cssSelector("div[data-accordion-id='availability_filter'] ul li label")
@@ -35,13 +43,16 @@ public class FilterPage extends PagesBase {
         for (WebElement option : availabilityOptions) {
             String text = option.getText().trim();
             if(text.contains("In stock")) {
+                WebElement numberSpan = option.findElement(By.cssSelector("span.opacity-50"));
+                String textNumber = numberSpan.getText().replaceAll("[^0-9]", "");
                 clickElementJS(option);
-                break;
+                return Integer.parseInt(textNumber);
             }
         }
+        return -1;
     }
 
-    public void selectOutStock() {
+    public int selectOutStock() {
 
         List<WebElement> availabilityOptions = driver.findElements(
                 By.cssSelector("div[data-accordion-id='availability_filter'] ul li label")
@@ -49,10 +60,13 @@ public class FilterPage extends PagesBase {
         for (WebElement option : availabilityOptions) {
             String text = option.getText().trim();
             if(text.contains("Out of Stock")) {
+                WebElement numberSpan = option.findElement(By.cssSelector("span.opacity-50"));
+                String textNumber = numberSpan.getText().replaceAll("[^0-9]", "");
                 clickElementJS(option);
-                break;
+                return Integer.parseInt(textNumber);
             }
         }
+        return -1;
     }
 
     @FindBy(css = "a[href='#taxonomy_filter_39']")
@@ -63,7 +77,7 @@ public class FilterPage extends PagesBase {
         clickElementJS(category);
     }
 
-    public void selectFashion() {
+    public int selectFashion() {
 
         List<WebElement> categoryOptions = driver.findElements(
                 By.cssSelector("div[data-accordion-id='taxonomy_filter_39'] ul li label")
@@ -71,13 +85,16 @@ public class FilterPage extends PagesBase {
         for (WebElement option : categoryOptions) {
             String text = option.getText().trim();
             if(text.contains("Fashion")) {
+                WebElement numberSpan = option.findElement(By.cssSelector("span.opacity-50"));
+                String textNumber = numberSpan.getText().replaceAll("[^0-9]", "");
                 clickElementJS(option);
-                break;
+                return Integer.parseInt(textNumber);
             }
         }
+        return -1;
     }
 
-    public void selectWellness() {
+    public int selectWellness() {
 
         List<WebElement> categoryOptions = driver.findElements(
                 By.cssSelector("div[data-accordion-id='taxonomy_filter_39'] ul li label")
@@ -85,10 +102,13 @@ public class FilterPage extends PagesBase {
         for (WebElement option : categoryOptions) {
             String text = option.getText().trim();
             if(text.contains("Wellness")) {
+                WebElement numberSpan = option.findElement(By.cssSelector("span.opacity-50"));
+                String textNumber = numberSpan.getText().replaceAll("[^0-9]", "");
                 clickElementJS(option);
-                break;
+                return Integer.parseInt(textNumber);
             }
         }
+        return -1;
     }
 
 
@@ -107,7 +127,7 @@ public class FilterPage extends PagesBase {
 
     public void clearFilter() {
 
-        clearFilter.click();
+        clickElementJS(clearFilter);
     }
 }
 

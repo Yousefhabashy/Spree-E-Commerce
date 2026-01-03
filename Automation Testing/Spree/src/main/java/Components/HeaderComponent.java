@@ -214,6 +214,12 @@ public class HeaderComponent extends PagesBase {
     @FindBy(id = "wishlist-icon-count")
     public WebElement wishlistCount;
 
+    @FindBy(css = "a[href='/cart']")
+    WebElement cartIcon;
+
+    public void openCart() {
+        clickElementJS(cartIcon);
+    }
     @FindBy(id = "site-logo")
     WebElement siteLogo;
 

@@ -18,6 +18,9 @@ public class CartPage extends PagesBase {
         PagesBase.driver = driver;
     }
 
+    @FindBy(css = "p.mb-8.mt-4.uppercase.text-sm")
+    public WebElement emptyCartMessage;
+
     @FindBy(id = "line-items")
     public WebElement productsContainer;
 
@@ -87,12 +90,12 @@ public class CartPage extends PagesBase {
     public WebElement totalPrice;
 
 
-    @FindBy(linkText = "Checkout")
+    @FindBy(xpath = "//*[@id=\"cart_summary\"]/div/div[2]/div[2]/a")
     public WebElement checkoutButton;
 
     public void openCheckoutPage() {
 
-        clickElementJS(checkoutButton);
+        checkoutButton.click();
     }
 
     @FindBy(id = "gpay-button-online-api-id")
