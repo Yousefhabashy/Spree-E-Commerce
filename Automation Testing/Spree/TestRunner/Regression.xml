@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Spree Regression Test Suite">
+    <parameter name="browser" value="chrome"/>
+    <test name="Tests">
+        <classes>
+
+            <class name="Tests.Regression.Checkout.CheckoutWithEmptyCartTest"/>
+            <class name="Tests.Regression.Checkout.CheckoutWithSavedAddressTest"/>
+            <class name="Tests.Regression.Checkout.InvalidPaymentDetailsTest"/>
+            <class name="Tests.Regression.Checkout.OrderIDTest"/>
+            <class name="Tests.Regression.Checkout.PaymentWithMasterCardTest"/>
+
+
+            <class name="Tests.Regression.Product.AddProductToCartTest"/>
+            <class name="Tests.Regression.Product.AddProductToWishlistTest"/>
+            <class name="Tests.Regression.Product.CheckProductDetailsAllOverPagesTest"/>
+            <class name="Tests.Regression.Product.ProductFilterTest"/>
+            <class name="Tests.Regression.Product.ProductSearchTest"/>
+            <class name="Tests.Regression.Product.ProductSortingTest"/>
+
+
+            <class name="Tests.Regression.User.SignupUserTest"/>
+            <class name="Tests.Regression.User.AddNewAddressTest"/>
+            <class name="Tests.Regression.User.ChangePasswordTest"/>
+            <class name="Tests.Regression.User.DuplicateUserRegistrationTest"/>
+            <class name="Tests.Regression.User.OrderHistoryTest"/>
+            <class name="Tests.Regression.User.SignInUserTest"/>
+            <class name="Tests.Regression.User.UserLogoutTest"/>
+
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,66 @@
+spree-tests-project/
+├── allure-reports/
+├── logs/
+├── Screenshots/
+├── src/
+│   ├── main/
+│   │   └── java/
+│   │       ├── Base/
+│   │       │   └── PagesBase.java
+│   │       ├── components/
+│   │       │   ├── FooterComponent.java
+│   │       │   ├── HeaderComponent.java
+│   │       │   └── ProductCardComponent.java
+│   │       ├── pages/
+│   │       │   ├── AccountPage.java
+│   │       │   ├── CartPage.java
+│   │       │   ├── CheckoutPage.java
+│   │       │   ├── FilterPage.java
+│   │       │   ├── HomePage.java
+│   │       │   ├── OrderPage.java
+│   │       │   ├── ProductPage.java
+│   │       │   ├── SigninPage.java
+│   │       │   └── SignupPage.java
+│   │       └── utils/
+│   │           ├── ParseDouble.java
+│   │           └── ScreenShotUtils.java
+│   └── test/
+│       └── java/
+│           ├── Base/
+│           │   └── BaseTest.java
+│           ├── Data/
+│           │   └── TestData.java
+│           └── Tests/
+│               ├── EndToEnd/
+│               │   ├── CompleteUserJourneyTest.java
+│               │   ├── GuestCheckoutTest.java
+│               │   └── MultipleProductPurchaseTest.java
+│               ├── regression/
+│               │   ├── cart/
+│               │   │   ├── CartBasicOperationsTests.java
+│               │   │   ├── CartPriceTests.java
+│               │   │   └── CartValidationTests.java
+│               │   ├── checkout/
+│               │   │   ├── CheckoutFlowTests.java
+│               │   │   ├── CheckoutPaymentTests.java
+│               │   │   └── CheckoutValidationTests.java
+│               │   ├── product/
+│               │   │   ├── ProductBrowsingTests.java
+│               │   │   ├── ProductDetailsTests.java
+│               │   │   └── ProductSearchTests.java
+│               │   └── user/
+│               │       ├── AuthenticationTests.java
+│               │       ├── OrderHistoryTests.java
+│               │       └── ProfileTests.java
+│               └── smoke/
+│                   ├── CriticalPathTests.java
+│                   └── SmokeTests.java
+├── TestRunner/
+│   ├── testng-E2E.xml
+│   ├── testng-regression.xml
+│   └── testng-smoke.xml
+├── test-reports/
+│   ├── html-reports/
+│   └── xml-reports/
+├── pom.xml
+└── README.md
