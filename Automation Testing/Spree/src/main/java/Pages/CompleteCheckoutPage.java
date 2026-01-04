@@ -17,7 +17,7 @@ public class CompleteCheckoutPage extends PagesBase {
 
     private List<WebElement> getAllProducts() {
 
-        return  driver.findElements(By.cssSelector("div.overflow-y-auto.line-items.flex.flex-col.gap-5.pt-5.md:pt-0"));
+        return  driver.findElements(By.cssSelector("div.flex.justify-between.items-center.pt-3"));
     }
 
     public CheckoutProduct getProduct(int productNumber) {
@@ -39,7 +39,7 @@ public class CompleteCheckoutPage extends PagesBase {
         }
 
         public String getTitle() {
-            return product.findElement(By.cssSelector("p.font-bold.word-break")).getText();
+            return product.findElement(By.cssSelector("p.font-bold.word-break")).getText().toUpperCase().trim();
         }
 
         public String getPrice() {
@@ -68,14 +68,14 @@ public class CompleteCheckoutPage extends PagesBase {
         public String getProductColor() {
 
             String color = splitProductColorAndSize()[0];
-            color = color.replace("Color:", "").trim();
+            color = color.replace("Color:", "").trim().toUpperCase();
             return color;
         }
 
         public String getProductSize() {
 
             String size = splitProductColorAndSize()[1];
-            size = size.replace("Size:", "").trim();
+            size = size.replace("Size:", "").trim().toUpperCase();
             return size;
         }
 

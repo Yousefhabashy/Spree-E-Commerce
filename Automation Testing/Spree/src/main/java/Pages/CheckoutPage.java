@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Objects;
 
 public class CheckoutPage extends PagesBase {
@@ -146,22 +147,24 @@ public class CheckoutPage extends PagesBase {
         clickElementJS(deliverySaveAndContinueButton);
     }
 
-    @FindBy(id = "shipping-rate-24494")
-    WebElement premiumDeliveryMethod;
+    private List<WebElement> getDeliveryMethod() {
+        return driver.findElements(By.cssSelector("input.custom-control-input.radio-input"));
+    }
 
     public void selectPremium() {
 
+        WebElement premiumDeliveryMethod = getDeliveryMethod().get(1);
         clickElementJS(premiumDeliveryMethod);
+    }
+
+    public void clickDeliverySaveAndContinueButton() {
         clickElementJS(deliverySaveAndContinueButton);
     }
 
-    @FindBy(id = "shipping-rate-24495")
-    WebElement nextDayDeliveryMethod;
-
     public void selectNextDay() {
 
+        WebElement nextDayDeliveryMethod = getDeliveryMethod().get(2);
         clickElementJS(nextDayDeliveryMethod);
-        clickElementJS(deliverySaveAndContinueButton);
     }
 
     @FindBy(xpath = "/html/body/div[2]/div/div[1]/div/div/div[2]/div[3]/div[1]/div[2]/p")

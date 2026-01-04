@@ -22,6 +22,10 @@ public class ProductPage extends PagesBase {
     @FindBy(css = "h1.text-2xl.uppercase.tracking-tight.font-medium")
     public WebElement productTitle;
 
+    public String getTitle() {
+        return productTitle.getText().trim();
+    }
+
     public String getPrice() {
 
         WebElement priceContainer = driver.findElement(By.id("block-40849"));
