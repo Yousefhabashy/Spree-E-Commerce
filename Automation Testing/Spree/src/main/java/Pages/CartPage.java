@@ -18,6 +18,14 @@ public class CartPage extends PagesBase {
         PagesBase.driver = driver;
     }
 
+    @FindBy(xpath = "//*[@id=\"slideover-cart\"]/div[1]/button")
+    public WebElement closeCartButton;
+
+    public void closeCart() {
+
+        clickElementJS(closeCartButton);
+    }
+
     @FindBy(css = "p.mb-8.mt-4.uppercase.text-sm")
     public WebElement emptyCartMessage;
 

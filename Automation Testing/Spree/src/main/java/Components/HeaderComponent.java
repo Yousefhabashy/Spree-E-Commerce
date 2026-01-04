@@ -87,12 +87,12 @@ public class HeaderComponent extends PagesBase {
         actions.moveToElement(fashion).moveToElement(accessories).click().perform();
     }
 
-    @FindBy(id = "block-37888")
-    WebElement wellness;
+    @FindBy(xpath = "//*[@id=\"block-37888\"]/a")
+    public WebElement wellness;
 
     public void openWellness() {
 
-        clickElementJS(wellness);
+        wellness.click();
     }
 
     @FindBy(xpath = "//*[@id=\"block-37888\"]/div/div/div/div[1]/a")
@@ -216,6 +216,9 @@ public class HeaderComponent extends PagesBase {
 
     @FindBy(css = "a[href='/cart']")
     WebElement cartIcon;
+
+    @FindBy(xpath = "//*[@id=\"cart-pane-link\"]/span[1]")
+    public WebElement cartCounter;
 
     public void openCart() {
         clickElementJS(cartIcon);
