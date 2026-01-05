@@ -20,7 +20,6 @@ public class OrderHistoryTest extends TestBase {
     CartPage cartPage;
     CheckoutPage checkoutPage;
     CompleteCheckoutPage completeCheckout;
-    AccountPage accountPage;
     OrderPage orderPage;
 
     String productTitle;
