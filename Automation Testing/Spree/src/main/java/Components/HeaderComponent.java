@@ -53,7 +53,7 @@ public class HeaderComponent extends PagesBase {
         shopAll.click();
     }
 
-    @FindBy(id = "block-37887")
+    @FindBy(xpath = "//*[@id=\"block-37887\"]/a")
     WebElement fashion;
 
     public void openFashion() {
@@ -131,7 +131,7 @@ public class HeaderComponent extends PagesBase {
         actions.moveToElement(fashion).moveToElement(Nutrition).click().perform();
     }
 
-    @FindBy(id = "block-37889")
+    @FindBy(xpath = "//*[@id=\"block-37889\"]/a")
     WebElement newArrivals;
 
     public void openNewArrivals() {
@@ -196,7 +196,7 @@ public class HeaderComponent extends PagesBase {
     }
 
     @FindBy(css = "a[href='/account']")
-    WebElement myAccount;
+    public WebElement myAccount;
 
     public void openAccount() {
 

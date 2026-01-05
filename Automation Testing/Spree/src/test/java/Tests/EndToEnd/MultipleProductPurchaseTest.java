@@ -298,7 +298,7 @@ public class MultipleProductPurchaseTest extends TestBase {
     @Test(dependsOnMethods = {"checkCheckoutProducts"})
     public void checkoutProduct() {
 
-        CheckoutPage checkoutPage = new CheckoutPage(driver);
+        checkoutPage = new CheckoutPage(driver);
 
         waitFor().until(ExpectedConditions.urlContains("/address"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("/address"));
