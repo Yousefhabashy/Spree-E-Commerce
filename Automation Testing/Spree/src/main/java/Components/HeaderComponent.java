@@ -148,7 +148,7 @@ public class HeaderComponent extends PagesBase {
     }
 
     @FindBy(css = "button.flex.gap-2.items-center")
-    WebElement currencyAndLanguageContainer;
+    public WebElement currencyAndLanguageContainer;
 
 
 
@@ -158,22 +158,22 @@ public class HeaderComponent extends PagesBase {
     }
 
     @FindBy(id = "switch_to_currency")
-    WebElement selectCurrency;
+    public WebElement selectCurrency;
 
-    public void selectDollar() {
+    public void selectEuro() {
 
         Select select = new Select(selectCurrency);
         select.selectByVisibleText("Euro (EUR)");
     }
 
-    public void selectEuro() {
+    public void selectDollar() {
 
         Select select = new Select(selectCurrency);
         select.selectByVisibleText("United States Dollar (USD)");
     }
 
     @FindBy(id = "switch_to_locale")
-    WebElement selectLanguage;
+    public WebElement selectLanguage;
 
     public void selectEnglish() {
 

@@ -55,7 +55,6 @@ public class CompleteUserJourneyTest extends TestBase {
         waitFor().until(ExpectedConditions.urlContains("https://demo.spreecommerce.org/user/sign_up"));
 
         signupPage = new SignupPage(driver);
-
         signupPage.signUpUser(email, password);
 
         header = new HeaderComponent(driver);
@@ -200,7 +199,7 @@ public class CompleteUserJourneyTest extends TestBase {
 
     @Test(dependsOnMethods = {"checkCheckoutProduct"})
     public void checkoutProduct(){
-        CheckoutPage checkoutPage = new CheckoutPage(driver);
+        checkoutPage = new CheckoutPage(driver);
 
         waitFor().until(ExpectedConditions.urlContains("/address"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("/address"));
