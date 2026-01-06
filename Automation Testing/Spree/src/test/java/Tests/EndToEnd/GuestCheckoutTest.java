@@ -17,7 +17,6 @@ public class GuestCheckoutTest extends TestBase {
     HomePage homePage;
     ProductPage productPage;
     CartPage cartPage;
-    SignInPage signInPage;
     CheckoutPage checkoutPage;
     CompleteCheckoutPage completeCheckout;
 

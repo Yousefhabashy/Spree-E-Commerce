@@ -40,6 +40,13 @@ public class CheckoutPage extends PagesBase {
         emailMeButton.click();
     }
 
+    @FindBy(id = "order_signup_for_an_account")
+    WebElement createAccountButton;
+
+    public void createAccount() {
+        clickElementJS(createAccountButton);
+    }
+
     @FindBy(id = "order_ship_address_attributes_country_id")
     WebElement selectCountry;
 
