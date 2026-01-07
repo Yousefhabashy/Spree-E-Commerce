@@ -4,7 +4,6 @@ import Base.TestBase;
 import Components.HeaderComponent;
 import Data.TestData;
 import Pages.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -39,6 +38,7 @@ public class AddProductToWishlistTest extends TestBase {
         header = new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "WELCOME! YOU HAVE SIGNED UP SUCCESSFULLY.");
+        isLoggedIn = true;
     }
 
     @Test(dependsOnMethods = {"signupUser"})

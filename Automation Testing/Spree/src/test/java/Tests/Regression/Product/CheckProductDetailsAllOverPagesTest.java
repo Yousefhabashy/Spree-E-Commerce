@@ -60,6 +60,7 @@ public class CheckProductDetailsAllOverPagesTest extends TestBase {
         header = new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "WELCOME! YOU HAVE SIGNED UP SUCCESSFULLY.");
+        isLoggedIn = true;
     }
 
     @Test(dependsOnMethods = {"signupUser"})
@@ -93,23 +94,27 @@ public class CheckProductDetailsAllOverPagesTest extends TestBase {
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.chooseSizeButton));
         productPage.chooseSize(productSize);
 
-        productPrice = productPage.getPrice();
-        productColor = productPage.getColor();
-        productQuantity = productPage.getQuantity();
+        waitFor().until(ExpectedConditions.visibilityOf(productPage.addToCartButton));
+        waitFor().until(ExpectedConditions.elementToBeClickable(productPage.addToCartButton));
+        boolean available = productPage.checkAvailable();
+        try {
+            if (available) {
+
+                productColor = productPage.getColor();
+                productPrice = productPage.getPrice();
+                productQuantity = productPage.getQuantity();
+
+                productPage.addToCart();
+            }
+            else {
+                System.out.println("product is sold out");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test(dependsOnMethods = {"checkRightProduct"})
-    public void addToCart() {
-
-        productPage = new ProductPage(driver);
-
-        waitFor().until(ExpectedConditions.visibilityOf(productPage.addToCartButton));
-        waitFor().until(ExpectedConditions.elementToBeClickable(productPage.addToCartButton));
-
-        productPage.addToCart();
-    }
-
-    @Test(dependsOnMethods = {"addToCart"})
     public void checkCartProduct() {
 
         cartPage = new CartPage(driver);

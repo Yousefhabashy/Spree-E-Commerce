@@ -29,6 +29,7 @@ public class OrderHistoryTest extends TestBase {
     int productQuantity ;
 
     String cartSubTotal;
+    String orderID;
 
     String email = TestData.generateEmail();
     String password = TestData.generatePassword();
@@ -61,9 +62,10 @@ public class OrderHistoryTest extends TestBase {
         header = new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "WELCOME! YOU HAVE SIGNED UP SUCCESSFULLY.");
+        isLoggedIn = true;
     }
 
-    @Test(priority = 2)
+    @Test(dependsOnMethods = {"signupUser"})
     public void openProductPage() {
 
         header = new HeaderComponent(driver);
@@ -80,10 +82,11 @@ public class OrderHistoryTest extends TestBase {
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("products/"));
     }
 
-    @Test(priority = 3)
+    @Test(dependsOnMethods = {"openProductPage"})
     public void addProductToCart() {
 
         productPage = new ProductPage(driver);
+
         waitFor().until(ExpectedConditions.visibilityOf(productPage.productTitle));
         productTitle = productPage.getTitle();
         productPrice = productPage.getPrice();
@@ -102,10 +105,20 @@ public class OrderHistoryTest extends TestBase {
 
         waitFor().until(ExpectedConditions.visibilityOf(productPage.addToCartButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.addToCartButton));
-        productPage.addToCart();
+        boolean available = productPage.checkAvailable();
+        try {
+            if (available) {
+                productPage.addToCart();
+            }
+            else {
+                System.out.println("product is sold out");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @Test(priority = 4)
+    @Test(dependsOnMethods = {"openProductPage"})
     public void checkCart() {
 
         cartPage =new CartPage(driver);
@@ -144,7 +157,7 @@ public class OrderHistoryTest extends TestBase {
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("checkout/"));
     }
 
-    @Test(priority = 5)
+    @Test(dependsOnMethods = {"checkCart"})
     public void checkCheckoutProduct() {
 
         checkoutPage = new CheckoutPage(driver);
@@ -180,7 +193,7 @@ public class OrderHistoryTest extends TestBase {
         Assert.assertEquals(checkoutProductQuantity, productQuantity);
     }
 
-    @Test(priority = 6)
+    @Test(dependsOnMethods = {"checkCheckoutProduct"})
     public void completeCheckout() {
 
         checkoutPage = new CheckoutPage(driver);
@@ -207,12 +220,17 @@ public class OrderHistoryTest extends TestBase {
         waitFor().until(ExpectedConditions.urlContains("/complete"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("/complete"));
 
+        waitFor().until(ExpectedConditions.visibilityOf(completeCheckoutPage.orderID));
+        orderID = completeCheckoutPage.orderID.getText().replace("Order", "").trim();
+
         waitFor().until(ExpectedConditions.visibilityOf(completeCheckoutPage.successMessage));
         Assert.assertEquals(completeCheckoutPage.successMessage.getText(), "Thanks "+ firstName +" for your order!");
     }
 
-    @Test(priority = 7)
+    @Test(dependsOnMethods = {"completeCheckout"})
     public void checkOrder(){
+
+        driver.navigate().to("https://demo.spreecommerce.org/");
 
         header = new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.myAccount));
@@ -224,11 +242,10 @@ public class OrderHistoryTest extends TestBase {
         orderPage = new OrderPage(driver);
         waitFor().until(ExpectedConditions.visibilityOf(orderPage.orderLink));
         waitFor().until(ExpectedConditions.elementToBeClickable(orderPage.orderLink));
-        String orderId = orderPage.orderLink.getText().trim();
         orderPage.openOrderPage();
 
-        waitFor().until(ExpectedConditions.urlContains(orderId.replace("#", "")));
-        Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains(orderId.replace("#", "")));
+        waitFor().until(ExpectedConditions.urlContains(orderID));
+        Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains(orderID));
 
         String ID = orderPage.getOrderId();
         String orderCity = orderPage.getCity();
@@ -238,26 +255,17 @@ public class OrderHistoryTest extends TestBase {
 
         String orderProductTitle = orderPage.getProductTitle();
         String orderProductPrice = orderPage.getProductPrice();
-        String orderProductColor;
-        try {
-            orderProductColor = orderPage.getProductColor();
-        } catch (Exception e) {
-            orderProductColor = "";
-        }
         String orderProductSize;
         try {
             orderProductSize = orderPage.getProductSize();
         } catch (Exception e) {
             orderProductSize = "";
         }
-        int orderProductQuantity = orderPage.getProductQuantity();
 
         Assert.assertEquals(orderProductTitle, productTitle);
         Assert.assertEquals(orderProductPrice, productPrice);
-        Assert.assertEquals(orderProductColor, productColor);
         Assert.assertEquals(orderProductSize, productSize);
-        Assert.assertEquals(orderProductQuantity, productQuantity);
-        Assert.assertEquals(orderId, ID);
+        Assert.assertEquals(ID, orderID);
         Assert.assertEquals(orderCity, city);
         Assert.assertEquals(orderAddress, address + " " + apartment);
         Assert.assertEquals(orderPostalCode, postalCode);

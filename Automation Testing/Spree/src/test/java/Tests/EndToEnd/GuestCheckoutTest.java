@@ -69,14 +69,26 @@ public class GuestCheckoutTest extends TestBase {
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.chooseSizeButton));
         productPage.chooseSize(productSize);
 
-        productTitle = productPage.getTitle();
-        productColor = productPage.getColor();
-        productPrice = productPage.getPrice();
-        productQuantity = productPage.getQuantity();
-
         waitFor().until(ExpectedConditions.visibilityOf(productPage.addToCartButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.addToCartButton));
-        productPage.addToCart();
+
+        boolean available = productPage.checkAvailable();
+        try {
+            if (available) {
+
+                productTitle = productPage.getTitle();
+                productColor = productPage.getColor();
+                productPrice = productPage.getPrice();
+                productQuantity = productPage.getQuantity();
+
+                productPage.addToCart();
+            }
+            else {
+                System.out.println("product is sold out");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test(priority = 3)

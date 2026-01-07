@@ -26,6 +26,6 @@ public class SignInUserTest extends TestBase {
         HeaderComponent header = new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "SIGNED IN SUCCESSFULLY.");
+        isLoggedIn = true;
     }
-
 }

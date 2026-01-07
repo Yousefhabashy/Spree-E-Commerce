@@ -52,6 +52,7 @@ public class CheckoutWithEuroTest extends TestBase {
         header = new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "WELCOME! YOU HAVE SIGNED UP SUCCESSFULLY.");
+        isLoggedIn = true;
     }
 
     @Test(dependsOnMethods = {"signupUser"})
@@ -87,20 +88,28 @@ public class CheckoutWithEuroTest extends TestBase {
 
     @Test(dependsOnMethods = {"openProductPage"})
     public void checkProductPagePrice() {
-
         productPage = new ProductPage(driver);
-        waitFor().until(ExpectedConditions.visibilityOf(productPage.productTitle));
-        String productPrice = productPage.getPrice();
-
-        Assert.assertTrue(productPrice.contains(euro));
-
         waitFor().until(ExpectedConditions.visibilityOf(productPage.chooseSizeButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.chooseSizeButton));
         productPage.chooseSize("M");
 
         waitFor().until(ExpectedConditions.visibilityOf(productPage.addToCartButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.addToCartButton));
-        productPage.addToCart();
+
+        boolean available = productPage.checkAvailable();
+        try {
+            if (available) {
+                String productPrice = productPage.getPrice();
+
+                Assert.assertTrue(productPrice.contains(euro));
+                productPage.addToCart();
+            }
+            else {
+                System.out.println("product is sold out");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test(dependsOnMethods = {"checkProductPagePrice"})

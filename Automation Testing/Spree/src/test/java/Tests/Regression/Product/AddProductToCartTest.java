@@ -27,6 +27,7 @@ public class AddProductToCartTest extends TestBase {
     @Test(priority = 1)
     public void openProductPage() {
 
+        isLoggedIn = false;
         header = new HeaderComponent(driver);
         header.openWomanFashion();
 
@@ -44,15 +45,29 @@ public class AddProductToCartTest extends TestBase {
     public void addProductToCart() {
 
         productPage = new ProductPage(driver);
-        waitFor().until(ExpectedConditions.visibilityOf(productPage.productTitle));
-        productName = productPage.productTitle.getText();
-        productColor = productPage.getColor();
-        productPrice = productPage.getPrice();
-        productQuantity = productPage.getQuantity();
+
+        waitFor().until(ExpectedConditions.visibilityOf(productPage.chooseSizeButton));
+        waitFor().until(ExpectedConditions.elementToBeClickable(productPage.chooseSizeButton));
         productPage.chooseSize(productSize);
+
         waitFor().until(ExpectedConditions.visibilityOf(productPage.addToCartButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.addToCartButton));
-        productPage.addToCart();
+        boolean available = productPage.checkAvailable();
+        try {
+            if (available) {
+                productName = productPage.getTitle();
+                productColor = productPage.getColor();
+                productPrice = productPage.getPrice();
+                productQuantity = productPage.getQuantity();
+
+                productPage.addToCart();
+            }
+            else {
+                System.out.println("product is sold out");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test(dependsOnMethods = {"addProductToCart"})

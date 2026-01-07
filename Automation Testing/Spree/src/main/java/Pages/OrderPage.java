@@ -27,7 +27,7 @@ public class OrderPage extends PagesBase {
     @FindBy(css = "h1.text-xl.uppercase.font-medium.my-4 ")
     WebElement orderId;
     public String getOrderId() {
-        return orderId.getText().replace("ORDER ", "");
+        return orderId.getText().replace("ORDER #", "");
     }
 
     @FindBy(css = "div.mb-1")
@@ -70,10 +70,10 @@ public class OrderPage extends PagesBase {
         return productPrice.getText().trim().toUpperCase();
     }
 
-    @FindBy(css = "//div[.//div[text()='Yellow']]//input[@class='color-input']")
+    @FindBy(css = "div.text-sm.px-2")
     WebElement productColor;
     public String getProductColor() {
-        return productColor.getAttribute("value");
+        return productColor.getText().toUpperCase();
     }
 
     @FindBy(xpath = "div.h-[30px].border.border-default.px-2.inline-flex.items-center.hover:border-dashed.hover:border-primary.text-sm")

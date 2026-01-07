@@ -36,6 +36,7 @@ public class ChangePasswordTest extends TestBase {
         header = new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "WELCOME! YOU HAVE SIGNED UP SUCCESSFULLY.");
+        isLoggedIn = true;
     }
 
     @Test(dependsOnMethods = {"signupUser"})
@@ -73,6 +74,7 @@ public class ChangePasswordTest extends TestBase {
 
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "SIGNED OUT SUCCESSFULLY.");
+        isLoggedIn = false;
     }
     @Test(dependsOnMethods = {"logoutUser"})
     public void loginWithNewPassword() {
@@ -86,5 +88,6 @@ public class ChangePasswordTest extends TestBase {
         HeaderComponent header = new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "SIGNED IN SUCCESSFULLY.");
+        isLoggedIn = true;
     }
 }

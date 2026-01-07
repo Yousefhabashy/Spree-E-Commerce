@@ -30,6 +30,7 @@ public class DuplicateUserRegistrationTest extends TestBase {
         header = new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "WELCOME! YOU HAVE SIGNED UP SUCCESSFULLY.");
+        isLoggedIn = true;
     }
 
     @Test(dependsOnMethods = {"signupUser"})
@@ -46,6 +47,7 @@ public class DuplicateUserRegistrationTest extends TestBase {
 
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "SIGNED OUT SUCCESSFULLY.");
+        isLoggedIn = false;
     }
 
     @Test(dependsOnMethods = {"logoutUser"})

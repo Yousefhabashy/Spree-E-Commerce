@@ -4,9 +4,7 @@
     <parameter name="browser" value="chrome"/>
     <test name="Tests">
         <classes>
-
             <class name="Tests.Smoke.MiniCheckoutTest"/>
-
         </classes>
     </test>
 </suite>

@@ -1,6 +1,8 @@
 package Base;
 
 
+import Components.HeaderComponent;
+import Pages.AccountPage;
 import Utils.ScreenshotUtils;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -9,8 +11,10 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import java.time.Duration;
@@ -18,7 +22,7 @@ import java.util.HashMap;
 
 public class TestBase {
     public static WebDriver driver;
-    public static boolean isLogin;
+    public static boolean isLoggedIn = false;
 
     public static ChromeOptions chromeOptions() {
         ChromeOptions options = new ChromeOptions();
@@ -81,17 +85,6 @@ public class TestBase {
         }
     }
 
-    @AfterMethod
-    public void tearDown(ITestResult result) {
-        if(ITestResult.FAILURE == result.getStatus() && isLogin) {
-
-            try {
-
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 
     public static Wait<WebDriver> waitFor() {
 
@@ -99,6 +92,30 @@ public class TestBase {
                 .withTimeout(Duration.ofSeconds(5))
                 .pollingEvery(Duration.ofMillis(50))
                 .ignoring(NoSuchElementException.class);
+    }
+
+    public void tryLogout() {
+
+        try {
+
+            driver.navigate().to("https://demo.spreecommerce.org/account/orders");
+            waitFor().until(ExpectedConditions.urlMatches("https://demo.spreecommerce.org/account/orders"));
+            AccountPage accountPage = new AccountPage(driver);
+            accountPage.logoutUser();
+
+            HeaderComponent header = new HeaderComponent(driver);
+            waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
+            Assert.assertEquals(header.successMessage.getText(), "SIGNED OUT SUCCESSFULLY.");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void teardown() {
+        if(isLoggedIn) {
+            tryLogout();
+        }
     }
 
     @AfterSuite

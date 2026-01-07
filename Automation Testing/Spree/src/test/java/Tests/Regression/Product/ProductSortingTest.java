@@ -16,6 +16,8 @@ public class ProductSortingTest extends TestBase {
     @Test(priority = 1)
     public void openWomanFashion() {
 
+        isLoggedIn = false;
+
         HeaderComponent header = new HeaderComponent(driver);
         header.openWomanFashion();
         waitFor().until(ExpectedConditions.urlContains("/fashion/women"));

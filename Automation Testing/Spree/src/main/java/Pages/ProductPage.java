@@ -123,4 +123,13 @@ public class ProductPage extends PagesBase {
 
         clickElementJS(addToCartButton);
     }
+
+    public boolean checkAvailable() {
+        try {
+            WebElement SPAN = addToCartButton.findElement(By.tagName("span"));
+            return SPAN.getText().contains("CART");
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

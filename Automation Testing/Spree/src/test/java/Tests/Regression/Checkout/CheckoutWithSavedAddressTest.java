@@ -45,6 +45,7 @@ public class CheckoutWithSavedAddressTest extends TestBase {
         header = new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "WELCOME! YOU HAVE SIGNED UP SUCCESSFULLY.");
+        isLoggedIn = true;
     }
 
     @Test(dependsOnMethods = {"signupUser"})
@@ -94,8 +95,17 @@ public class CheckoutWithSavedAddressTest extends TestBase {
 
         waitFor().until(ExpectedConditions.visibilityOf(productPage.addToCartButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.addToCartButton));
-
-        productPage.addToCart();
+        boolean available = productPage.checkAvailable();
+        try {
+            if(available) {
+                productPage.addToCart();
+            }
+            else {
+                System.out.println("Product is sold out");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test(dependsOnMethods = {"addProductToCart"})

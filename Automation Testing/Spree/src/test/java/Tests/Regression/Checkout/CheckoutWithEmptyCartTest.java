@@ -5,15 +5,9 @@ import Components.HeaderComponent;
 import Data.TestData;
 import Pages.CartPage;
 import Pages.SignupPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.List;
-import java.util.Objects;
 
 public class CheckoutWithEmptyCartTest extends TestBase {
 
@@ -37,6 +31,7 @@ public class CheckoutWithEmptyCartTest extends TestBase {
         header = new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "WELCOME! YOU HAVE SIGNED UP SUCCESSFULLY.");
+        isLoggedIn = true;
     }
 
     @Test(dependsOnMethods = {"signupUser"})

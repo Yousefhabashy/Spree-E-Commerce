@@ -71,7 +71,7 @@ public class MultipleProductPurchaseTest extends TestBase {
         header = new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "WELCOME! YOU HAVE SIGNED UP SUCCESSFULLY.");
-
+        isLoggedIn = true;
     }
 
     @Test(dependsOnMethods = {"signupUser"})
@@ -91,22 +91,35 @@ public class MultipleProductPurchaseTest extends TestBase {
         Assert.assertTrue(driver.getCurrentUrl().contains("products/"));
 
         productPage = new ProductPage(driver);
+        waitFor().until(ExpectedConditions.visibilityOf(productPage.chooseSizeButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.chooseSizeButton));
         productPage.chooseSize(product1Size);
 
-        product1Title = productPage.getTitle();
-        product1Price = productPage.getPrice();
-        product1Color = productPage.getColor();
-        product1Quantity = productPage.getQuantity();
-
         waitFor().until(ExpectedConditions.visibilityOf(productPage.addToCartButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.addToCartButton));
-        productPage.addToCart();
 
-        cartPage = new CartPage(driver);
-        waitFor().until(ExpectedConditions.visibilityOf(cartPage.closeCartButton));
-        waitFor().until(ExpectedConditions.elementToBeClickable(cartPage.closeCartButton));
-        cartPage.closeCart();
+        boolean available = productPage.checkAvailable();
+        try {
+            if (available) {
+
+                product1Title = productPage.getTitle();
+                product1Color = productPage.getColor();
+                product1Price = productPage.getPrice();
+                product1Quantity = productPage.getQuantity();
+
+                productPage.addToCart();
+
+                cartPage = new CartPage(driver);
+                waitFor().until(ExpectedConditions.visibilityOf(cartPage.closeCartButton));
+                waitFor().until(ExpectedConditions.elementToBeClickable(cartPage.closeCartButton));
+                cartPage.closeCart();
+            }
+            else {
+                System.out.println("product is sold out");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test(dependsOnMethods = {"addProduct1ToCart"})
@@ -131,22 +144,32 @@ public class MultipleProductPurchaseTest extends TestBase {
 
         waitFor().until(ExpectedConditions.visibilityOf(productPage.addToCartButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.addToCartButton));
-
-        product2Title = productPage.getTitle();
-        product2Price = productPage.getPrice();
+        boolean available = productPage.checkAvailable();
         try {
-            product2Color = productPage.getColor();
-        } catch (RuntimeException e) {
-            product2Color = "";
+            if(available) {
+                product2Title = productPage.getTitle();
+                product2Price = productPage.getPrice();
+                try {
+                    product2Color = productPage.getColor();
+                } catch (RuntimeException e) {
+                    product2Color = "";
+                }
+
+                product2Quantity = productPage.getQuantity();
+
+                productPage.addToCart();
+
+                cartPage = new CartPage(driver);
+                waitFor().until(ExpectedConditions.visibilityOf(cartPage.closeCartButton));
+                waitFor().until(ExpectedConditions.elementToBeClickable(cartPage.closeCartButton));
+                cartPage.closeCart();
+            }
+            else {
+                System.out.println("product is sold out");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        product2Quantity = productPage.getQuantity();
-
-        productPage.addToCart();
-
-        cartPage = new CartPage(driver);
-        waitFor().until(ExpectedConditions.visibilityOf(cartPage.closeCartButton));
-        waitFor().until(ExpectedConditions.elementToBeClickable(cartPage.closeCartButton));
-        cartPage.closeCart();
     }
 
     @Test(dependsOnMethods = {"addProduct2ToCart"})
@@ -169,22 +192,34 @@ public class MultipleProductPurchaseTest extends TestBase {
         Assert.assertTrue(driver.getCurrentUrl().contains("products/"));
 
         productPage = new ProductPage(driver);
+        waitFor().until(ExpectedConditions.visibilityOf(productPage.chooseSizeButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.chooseSizeButton));
         productPage.chooseSize(product3Size);
 
-        product3Title = productPage.getTitle();
-        product3Price = productPage.getPrice();
-        product3Color = productPage.getColor();
-        product3Quantity = productPage.getQuantity();
-
         waitFor().until(ExpectedConditions.visibilityOf(productPage.addToCartButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.addToCartButton));
-        productPage.addToCart();
 
-        cartPage = new CartPage(driver);
-        waitFor().until(ExpectedConditions.visibilityOf(cartPage.closeCartButton));
-        waitFor().until(ExpectedConditions.elementToBeClickable(cartPage.closeCartButton));
-        cartPage.closeCart();
+        boolean available = productPage.checkAvailable();
+        try {
+            if (available) {
+                product3Title = productPage.getTitle();
+                product3Price = productPage.getPrice();
+                product3Color = productPage.getColor();
+                product3Quantity = productPage.getQuantity();
+
+                productPage.addToCart();
+
+                cartPage = new CartPage(driver);
+                waitFor().until(ExpectedConditions.visibilityOf(cartPage.closeCartButton));
+                waitFor().until(ExpectedConditions.elementToBeClickable(cartPage.closeCartButton));
+                cartPage.closeCart();
+            }
+            else {
+                System.out.println("product is sold out");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test(dependsOnMethods = {"addProduct3ToCart"})

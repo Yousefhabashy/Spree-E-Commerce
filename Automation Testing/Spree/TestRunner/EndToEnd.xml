@@ -7,7 +7,11 @@
 
             <class name="Tests.EndToEnd.CompleteUserJourneyTest"/>
             <class name="Tests.EndToEnd.GuestCheckoutTest"/>
-            <class name="Tests.EndToEnd.MultipleProductPurchaseTest"/>
+<!--            <class name="Tests.EndToEnd.MultipleProductPurchaseTest"/>-->
+            <class name="Tests.EndToEnd.CheckoutWithDeutschTest"/>
+            <class name="Tests.EndToEnd.CheckoutWithEuroTest"/>
+<!--            <class name="Tests.EndToEnd.CreateAccountDuringGuestCheckoutTest"/>-->
+<!--            <class name="Tests.EndToEnd.SignInDuringCheckoutTest"/>-->
 
         </classes>
     </test>

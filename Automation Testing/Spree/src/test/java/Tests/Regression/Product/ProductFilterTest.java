@@ -14,9 +14,11 @@ public class ProductFilterTest extends TestBase {
 
     HomePage homePage;
     FilterPage filterPage;
+
     @Test(priority = 1)
     public void openShop() {
 
+        isLoggedIn = false;
         HeaderComponent header = new HeaderComponent(driver);
         header.openShopAll();
 
@@ -86,7 +88,7 @@ public class ProductFilterTest extends TestBase {
         filterPage = new FilterPage(driver);
         waitFor().until(ExpectedConditions.visibilityOf(filterPage.category));
 
-        int numberOutOfStock = filterPage.selectFashion();
+        int fashionProducts = filterPage.selectFashion();
 
         waitFor().until(ExpectedConditions.elementToBeClickable(filterPage.applyFilter));
         filterPage.applyFilter();
@@ -94,7 +96,7 @@ public class ProductFilterTest extends TestBase {
         waitFor().until(ExpectedConditions.urlContains("/products"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("/products"));
 
-        Assert.assertEquals(filterPage.productNumbers().size(), numberOutOfStock);
+        Assert.assertEquals(filterPage.productNumbers().size(), fashionProducts);
     }
 
     @Test(priority = 4)
@@ -111,7 +113,7 @@ public class ProductFilterTest extends TestBase {
         filterPage = new FilterPage(driver);
         waitFor().until(ExpectedConditions.visibilityOf(filterPage.category));
 
-        int numberOutOfStock = filterPage.selectWellness();
+        int wellnessProducts = filterPage.selectWellness();
 
         waitFor().until(ExpectedConditions.elementToBeClickable(filterPage.applyFilter));
         filterPage.applyFilter();
@@ -119,6 +121,6 @@ public class ProductFilterTest extends TestBase {
         waitFor().until(ExpectedConditions.urlContains("/products"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("/products"));
 
-        Assert.assertEquals(filterPage.productNumbers().size(), numberOutOfStock);
+        Assert.assertEquals(filterPage.productNumbers().size(), wellnessProducts);
     }
 }

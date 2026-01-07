@@ -49,5 +49,6 @@ public class UserLogoutTest extends TestBase {
 
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "SIGNED OUT SUCCESSFULLY.");
+        isLoggedIn = false;
     }
 }

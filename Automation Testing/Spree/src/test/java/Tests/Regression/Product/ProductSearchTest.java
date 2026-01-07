@@ -20,6 +20,8 @@ public class ProductSearchTest extends TestBase {
     @Test(priority = 1)
     public void productSearch(){
 
+        isLoggedIn =false;
+
        header = new HeaderComponent(driver);
        waitFor().until(ExpectedConditions.elementToBeClickable(header.openSearchButton));
        header.openSearch();
