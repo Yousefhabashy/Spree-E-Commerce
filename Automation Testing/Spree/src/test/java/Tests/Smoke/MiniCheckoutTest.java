@@ -21,7 +21,7 @@ public class MiniCheckoutTest extends TestBase {
     CartPage cartPage;
     CheckoutPage checkoutPage;
 
-    String productSize  = "M";
+    String productSize  = "S";
 
     String email = TestData.generateEmail();
     String password = TestData.generatePassword();
@@ -60,9 +60,9 @@ public class MiniCheckoutTest extends TestBase {
     public void openProductPage() {
 
         header = new HeaderComponent(driver);
-        header.openWomanFashion();
-        waitFor().until(ExpectedConditions.urlContains("categories/fashion/women"));
-        Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("categories/fashion/women"));
+        header.openFitness();
+        waitFor().until(ExpectedConditions.urlContains("categories/wellness/fitness"));
+        Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("categories/wellness/fitness"));
 
         homePage = new HomePage(driver);
         homePage.openProductPage();
@@ -87,7 +87,8 @@ public class MiniCheckoutTest extends TestBase {
                 productPage.addToCart();
             }
             else {
-                System.out.println("product is sold out");
+                productPage.addToCart();
+                Assert.fail("Item is sold out");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -97,6 +98,7 @@ public class MiniCheckoutTest extends TestBase {
     @Test(dependsOnMethods = {"addProductToCart"})
     public void openCheckoutProduct() {
 
+        cartPage = new CartPage(driver);
         waitFor().until(ExpectedConditions.elementToBeClickable(cartPage.checkoutButton));
         cartPage.openCheckoutPage();
 

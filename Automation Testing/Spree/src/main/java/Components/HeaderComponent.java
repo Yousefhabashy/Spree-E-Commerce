@@ -110,25 +110,25 @@ public class HeaderComponent extends PagesBase {
     public void openFitness() {
 
         Actions actions = new Actions(driver);
-        actions.moveToElement(fashion).moveToElement(Fitness).click().perform();
+        actions.moveToElement(wellness).moveToElement(Fitness).click().perform();
     }
 
     public void openRelaxation() {
 
         Actions actions = new Actions(driver);
-        actions.moveToElement(fashion).moveToElement(Relaxation).click().perform();
+        actions.moveToElement(wellness).moveToElement(Relaxation).click().perform();
     }
 
     public void openMentalStimulation() {
 
         Actions actions = new Actions(driver);
-        actions.moveToElement(fashion).moveToElement(mentalStimulation).click().perform();
+        actions.moveToElement(wellness).moveToElement(mentalStimulation).click().perform();
     }
 
     public void openNutrition() {
 
         Actions actions = new Actions(driver);
-        actions.moveToElement(fashion).moveToElement(Nutrition).click().perform();
+        actions.moveToElement(wellness).moveToElement(Nutrition).click().perform();
     }
 
     @FindBy(xpath = "//*[@id=\"block-37889\"]/a")

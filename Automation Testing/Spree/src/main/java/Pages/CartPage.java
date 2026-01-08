@@ -98,12 +98,20 @@ public class CartPage extends PagesBase {
     public WebElement totalPrice;
 
 
-    @FindBy(xpath = "//*[@id=\"cart_summary\"]/div/div[2]/div[2]/a")
+    @FindBy(linkText = "CHECKOUT")
     public WebElement checkoutButton;
 
     public void openCheckoutPage() {
 
         checkoutButton.click();
+    }
+
+    @FindBy(linkText = "ZUR KASSE")
+    public WebElement ZurKasse;
+
+    public void zurKasse() {
+
+        ZurKasse.click();
     }
 
     @FindBy(id = "gpay-button-online-api-id")

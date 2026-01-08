@@ -82,7 +82,8 @@ public class InvalidPaymentDetailsTest extends TestBase {
                 productPage.addToCart();
             }
             else {
-                System.out.println("product is sold out");
+                productPage.addToCart();
+                Assert.fail("Item is sold out");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

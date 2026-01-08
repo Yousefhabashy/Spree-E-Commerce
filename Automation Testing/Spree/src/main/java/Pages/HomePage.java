@@ -26,11 +26,8 @@ public class HomePage extends PagesBase {
     @FindBy(css = "div.product-card.flex.h-full.flex-col.w-full.gap-2.relative")
     List<WebElement> productCards;
 
-    @FindBy(xpath = "//*[@id=\"product-323\"]/div[2]/h3")
+    @FindBy(id = "product-288")
     public WebElement productTitle;
-
-    @FindBy(xpath = "//*[@id=\"product-323\"]/div[2]/div")
-    public WebElement productPrice;
 
     public void openProductPage() {
 

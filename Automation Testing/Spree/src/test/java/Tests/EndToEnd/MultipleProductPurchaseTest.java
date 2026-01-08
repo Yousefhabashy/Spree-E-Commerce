@@ -115,7 +115,8 @@ public class MultipleProductPurchaseTest extends TestBase {
                 cartPage.closeCart();
             }
             else {
-                System.out.println("product is sold out");
+                productPage.addToCart();
+                Assert.fail("Item is sold out");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

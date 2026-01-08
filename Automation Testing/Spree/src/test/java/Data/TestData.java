@@ -62,7 +62,7 @@ public class TestData {
     }
     public static String generatePostalCode() {
 
-        return faker.address().zipCode();
+        return String.format("%05d", faker.number().numberBetween(0, 999));
     }
 
     public static String generateState() {

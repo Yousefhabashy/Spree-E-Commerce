@@ -84,42 +84,40 @@ public class CheckoutWithDeutschTest extends TestBase {
     }
 
     @Test(dependsOnMethods = {"openProductPage"})
-    public void checkProductPagePrice() {
+    public void addProductToCart() {
 
         productPage = new ProductPage(driver);
         waitFor().until(ExpectedConditions.visibilityOf(productPage.chooseSizeButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.chooseSizeButton));
         productPage.chooseSize("M");
 
-        waitFor().until(ExpectedConditions.visibilityOf(productPage.addToCartButton));
-        waitFor().until(ExpectedConditions.elementToBeClickable(productPage.addToCartButton));
-
-        boolean available = productPage.checkAvailable();
+        boolean available = productPage.checkVerfügbar();
         try {
             if (available) {
                 productPage.addToCart();
             }
             else {
-                System.out.println("product is sold out");
+                productPage.addToCart();
+                Assert.fail("Item is sold out");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Test(dependsOnMethods = {"checkProductPagePrice"})
-    public void checkCartPagePrice() {
+    @Test(dependsOnMethods = {"addProductToCart"})
+    public void openProductCheckoutPage() {
 
         cartPage = new CartPage(driver);
-        waitFor().until(ExpectedConditions.visibilityOf(cartPage.checkoutButton));
-        waitFor().until(ExpectedConditions.elementToBeClickable(cartPage.checkoutButton));
-        cartPage.openCheckoutPage();
+        waitFor().until(ExpectedConditions.visibilityOf(cartPage.ZurKasse));
+        waitFor().until(ExpectedConditions.elementToBeClickable(cartPage.ZurKasse));
+        cartPage.zurKasse();
 
         waitFor().until(ExpectedConditions.urlContains("checkout/"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("checkout/"));
     }
 
-    @Test(dependsOnMethods = {"checkCartPagePrice"})
+    @Test(dependsOnMethods = {"openProductCheckoutPage"})
     public void checkoutProduct(){
         checkoutPage = new CheckoutPage(driver);
 
@@ -155,5 +153,22 @@ public class CheckoutWithDeutschTest extends TestBase {
 
         waitFor().until(ExpectedConditions.visibilityOf(completeCheckoutPage.successMessage));
         Assert.assertEquals(completeCheckoutPage.successMessage.getText(), "Thanks "+ firstName +" for your order!");
+    }
+
+    @Test(dependsOnMethods = {"checkoutProduct"})
+    public void logoutUser() {
+
+        header = new HeaderComponent(driver);
+        header.openAccount();
+
+        waitFor().until(ExpectedConditions.urlContains("/account/"));
+        Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("account/"));
+
+        AccountPage accountPage = new AccountPage(driver);
+        accountPage.logoutUser();
+
+        waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
+        Assert.assertEquals(header.successMessage.getText(), "ERFOLGREICH ABGEMELDET.");
+        isLoggedIn = false;
     }
 }

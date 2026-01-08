@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Objects;
@@ -128,6 +129,17 @@ public class ProductPage extends PagesBase {
         try {
             WebElement SPAN = addToCartButton.findElement(By.tagName("span"));
             return SPAN.getText().contains("CART");
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean checkVerfügbar() {
+        try {
+            WebElement addToCartButton = driver.findElement(By.xpath("/html/body/main/div[2]/turbo-frame/div/div/div/div[2]/div/form/div/div[6]/div/div[1]/button"));
+            wait.until(ExpectedConditions.elementToBeClickable(addToCartButton));
+            WebElement SPAN = addToCartButton.findElement(By.tagName("span"));
+            return SPAN.getText().contains("WARENKORB");
         } catch (Exception e) {
             return false;
         }

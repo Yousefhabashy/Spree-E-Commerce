@@ -61,7 +61,7 @@ public class CreateAccountDuringGuestCheckoutTest extends TestBase {
         Assert.assertTrue(driver.getCurrentUrl().contains("products/"));
     }
 
-    @Test(priority = 2)
+    @Test(dependsOnMethods = {"openProductPage"})
     public void addProductToCart() {
 
         productPage = new ProductPage(driver);
@@ -84,14 +84,15 @@ public class CreateAccountDuringGuestCheckoutTest extends TestBase {
                 productPage.addToCart();
             }
             else {
-                System.out.println("product is sold out");
+                productPage.addToCart();
+                Assert.fail("Item is sold out");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    @Test(priority = 3)
+    @Test(dependsOnMethods = {"addProductToCart"})
     public void checkCartProduct() {
         cartPage = new CartPage(driver);
         waitFor().until(ExpectedConditions.visibilityOf(cartPage.closeCartButton));
@@ -110,17 +111,15 @@ public class CreateAccountDuringGuestCheckoutTest extends TestBase {
         Assert.assertEquals(cartProductSize, productSize);
         Assert.assertEquals(cartProductQuantity, productQuantity);
 
-        waitFor().until(ExpectedConditions.elementToBeClickable(cartPage.checkoutButton));
         cartPage.openCheckoutPage();
 
         waitFor().until(ExpectedConditions.urlContains("user/sign_in"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("user/sign_in"));
         SignInPage signInPage = new SignInPage(driver);
         signInPage.openGuestCheckout();
-
     }
 
-    @Test(priority = 4)
+    @Test(dependsOnMethods = {"checkCartProduct"})
     public void checkoutAsGuest() {
 
         checkoutPage = new CheckoutPage(driver);
