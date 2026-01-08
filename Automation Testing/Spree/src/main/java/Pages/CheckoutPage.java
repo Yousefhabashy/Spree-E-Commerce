@@ -41,7 +41,7 @@ public class CheckoutPage extends PagesBase {
     }
 
     @FindBy(id = "order_signup_for_an_account")
-    WebElement createAccountButton;
+    public WebElement createAccountButton;
 
     public void createAccount() {
         clickElementJS(createAccountButton);
