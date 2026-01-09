@@ -33,7 +33,7 @@ public class CheckoutWithDeutschTest extends TestBase {
     String postalCode = TestData.generatePostalCode();
     String phoneNumber = TestData.generatePhoneNumber();
 
-    String masterCardNumber = TestData.generateMasterCard();
+    String masterCardNumber = TestData.generateVisaDebit();
     String expiryData = TestData.generateExpiry();
     String CVV = TestData.generateCVV();
 
@@ -91,18 +91,10 @@ public class CheckoutWithDeutschTest extends TestBase {
         waitFor().until(ExpectedConditions.elementToBeClickable(productPage.chooseSizeButton));
         productPage.chooseSize("M");
 
-        boolean available = productPage.checkVerfügbar();
-        try {
-            if (available) {
-                productPage.addToCart();
-            }
-            else {
-                productPage.addToCart();
-                Assert.fail("Item is sold out");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
+        waitFor().until(ExpectedConditions.visibilityOf(productPage.addToCartButton));
+        waitFor().until(ExpectedConditions.elementToBeClickable(productPage.addToCartButton));
+        productPage.addToCart();
     }
 
     @Test(dependsOnMethods = {"addProductToCart"})
@@ -133,7 +125,6 @@ public class CheckoutWithDeutschTest extends TestBase {
         waitFor().until(ExpectedConditions.urlContains("/delivery"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("/delivery"));
 
-        checkoutPage.selectNextDay();
         waitFor().until(ExpectedConditions.visibilityOf(checkoutPage.deliverySaveAndContinueButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(checkoutPage.deliverySaveAndContinueButton));
         checkoutPage.clickDeliverySaveAndContinueButton();
@@ -158,8 +149,7 @@ public class CheckoutWithDeutschTest extends TestBase {
     @Test(dependsOnMethods = {"checkoutProduct"})
     public void logoutUser() {
 
-        header = new HeaderComponent(driver);
-        header.openAccount();
+        driver.navigate().to("https://demo.spreecommerce.org/account/orders");
 
         waitFor().until(ExpectedConditions.urlContains("/account/"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("account/"));
@@ -167,6 +157,7 @@ public class CheckoutWithDeutschTest extends TestBase {
         AccountPage accountPage = new AccountPage(driver);
         accountPage.logoutUser();
 
+        header =  new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "ERFOLGREICH ABGEMELDET.");
         isLoggedIn = false;

@@ -157,7 +157,6 @@ public class CheckoutWithEuroTest extends TestBase {
         waitFor().until(ExpectedConditions.urlContains("/delivery"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("/delivery"));
 
-        checkoutPage.selectNextDay();
         waitFor().until(ExpectedConditions.visibilityOf(checkoutPage.deliverySaveAndContinueButton));
         waitFor().until(ExpectedConditions.elementToBeClickable(checkoutPage.deliverySaveAndContinueButton));
         checkoutPage.clickDeliverySaveAndContinueButton();

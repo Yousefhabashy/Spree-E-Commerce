@@ -102,6 +102,7 @@ public class CompleteUserJourneyTest extends TestBase {
 
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "SIGNED OUT SUCCESSFULLY.");
+        isLoggedIn = false;
     }
 
     @Test(dependsOnMethods = {"logoutUser"})
@@ -116,6 +117,7 @@ public class CompleteUserJourneyTest extends TestBase {
         HeaderComponent header = new HeaderComponent(driver);
         waitFor().until(ExpectedConditions.visibilityOf(header.successMessage));
         Assert.assertEquals(header.successMessage.getText(), "SIGNED IN SUCCESSFULLY.");
+        isLoggedIn = true;
     }
 
     @Test(dependsOnMethods = {"loginWithNewPassword"})

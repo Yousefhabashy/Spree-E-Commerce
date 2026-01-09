@@ -90,7 +90,6 @@ public class SignInDuringCheckoutTest extends TestBase {
         waitFor().until(ExpectedConditions.elementToBeClickable(cartPage.checkoutButton));
         cartPage.openCheckoutPage();
 
-        waitFor().until(ExpectedConditions.urlContains("user/sign_in"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("user/sign_in"));
     }
 
@@ -105,8 +104,10 @@ public class SignInDuringCheckoutTest extends TestBase {
         Assert.assertEquals(header.successMessage.getText(), "SIGNED IN SUCCESSFULLY.");
         isLoggedIn = true;
 
-        waitFor().until(ExpectedConditions.urlContains("checkout/"));
-        Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("checkout/"));
+        waitFor().until(ExpectedConditions.urlContains("/cart"));
+        Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("/cart"));
+        cartPage = new CartPage(driver);
+        cartPage.openCheckoutPage();
     }
 
     @Test(dependsOnMethods = {"signInUser"})

@@ -27,7 +27,6 @@ public class GuestCheckoutTest extends TestBase {
     int productQuantity ;
 
     String email = TestData.generateEmail();
-    String password = TestData.generatePassword();
 
     String firstName = TestData.generateFirstName();
     String lastName = TestData.generateLastName();
@@ -46,6 +45,7 @@ public class GuestCheckoutTest extends TestBase {
 
     @Test(priority = 1)
     public void openProductPage() {
+        isLoggedIn = false;
 
         header = new HeaderComponent(driver);
         header.openMenFashion();
@@ -143,12 +143,12 @@ public class GuestCheckoutTest extends TestBase {
         checkoutPage.enterCardDetails(masterCardNumber, expiryData, CVV);
         checkoutPage.clickPayNow();
 
-        CompleteCheckoutPage completeCheckoutPage = new CompleteCheckoutPage(driver);
+        completeCheckout = new CompleteCheckoutPage(driver);
 
         waitFor().until(ExpectedConditions.urlContains("/complete"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("/complete"));
 
-        waitFor().until(ExpectedConditions.visibilityOf(completeCheckoutPage.successMessage));
-        Assert.assertEquals(completeCheckoutPage.successMessage.getText(), "Thanks "+ firstName +" for your order!");
+        waitFor().until(ExpectedConditions.visibilityOf(completeCheckout.successMessage));
+        Assert.assertEquals(completeCheckout.successMessage.getText(), "Thanks "+ firstName +" for your order!");
     }
 }

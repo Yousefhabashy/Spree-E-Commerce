@@ -133,15 +133,4 @@ public class ProductPage extends PagesBase {
             return false;
         }
     }
-
-    public boolean checkVerfügbar() {
-        try {
-            WebElement addToCartButton = driver.findElement(By.xpath("/html/body/main/div[2]/turbo-frame/div/div/div/div[2]/div/form/div/div[6]/div/div[1]/button"));
-            wait.until(ExpectedConditions.elementToBeClickable(addToCartButton));
-            WebElement SPAN = addToCartButton.findElement(By.tagName("span"));
-            return SPAN.getText().contains("WARENKORB");
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }

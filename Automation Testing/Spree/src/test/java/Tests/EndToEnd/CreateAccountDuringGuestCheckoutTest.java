@@ -113,7 +113,6 @@ public class CreateAccountDuringGuestCheckoutTest extends TestBase {
 
         cartPage.openCheckoutPage();
 
-        waitFor().until(ExpectedConditions.urlContains("user/sign_in"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("user/sign_in"));
         SignInPage signInPage = new SignInPage(driver);
         signInPage.openGuestCheckout();
@@ -144,10 +143,10 @@ public class CreateAccountDuringGuestCheckoutTest extends TestBase {
         checkoutPage.enterCardDetails(masterCardNumber, expiryData, CVV);
         checkoutPage.clickPayNow();
 
-        CompleteCheckoutPage completeCheckoutPage = new CompleteCheckoutPage(driver);
+        completeCheckout = new CompleteCheckoutPage(driver);
         waitFor().until(ExpectedConditions.urlContains("/complete"));
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("/complete"));
-        waitFor().until(ExpectedConditions.visibilityOf(completeCheckoutPage.successMessage));
-        Assert.assertEquals(completeCheckoutPage.successMessage.getText(), "Thanks "+ firstName +" for your order!");
+        waitFor().until(ExpectedConditions.visibilityOf(completeCheckout.successMessage));
+        Assert.assertEquals(completeCheckout.successMessage.getText(), "Thanks "+ firstName +" for your order!");
     }
 }
